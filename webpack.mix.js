@@ -1,4 +1,5 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
+// TODO: require('vuetifyjs-mix-extension')
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +12,26 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+// Vuetify scss and sass weback config
+// eslint-disable-next-line no-undef
+Mix.listen('configReady', config => {
+  const scssRule = config.module.rules.find(r => r.test.toString() === /\.scss$/.toString())
+  const scssOptions = scssRule.oneOf[0].use.find(l => l.loader === 'sass-loader').options
+  scssOptions.additionalData = '@import "./resources/styles/styles.scss";'
+
+  const sassRule = config.module.rules.find(r => r.test.toString() === /\.sass$/.toString())
+  const sassOptions = sassRule.oneOf[0].use.find(l => l.loader === 'sass-loader').options
+  sassOptions.additionalData = '@import "./resources/styles/styles.scss"'
+})
+
+mix.js('resources/js/app.js', 'public/js').vue()
+  .copyDirectory('resources/js/assets/images', 'public/images')
+  .postCss('resources/css/app.css', 'public/css', [
+    require('postcss-import'),
+    require('autoprefixer')
+  ])
+  .webpackConfig(require('./webpack.config'))
+
+if (mix.inProduction()) {
+  mix.version()
+}

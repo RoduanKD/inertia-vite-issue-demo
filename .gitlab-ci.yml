@@ -1,0 +1,70 @@
+stages:
+  - preparation
+  - building
+  - deploy
+
+image: edbizarro/gitlab-ci-pipeline-php:8.0-alpine
+
+cache:
+  key: '$CI_JOB_NAME-$CI_COMMIT_REF_SLUG'
+
+composer:
+  stage: preparation
+  script:
+    - php -v
+    - sudo -H composer self-update --2 --no-plugins
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts --ignore-platform-reqs
+    - cp .env.example .env
+    - php artisan key:generate
+  artifacts:
+    paths:
+      - vendor/
+      - .env
+    expire_in: 1 days
+    when: always
+  cache:
+    paths:
+      - vendor/
+
+npm:
+  stage: preparation
+  script:
+    - npm -v
+    - sudo -H npm install -g npm@latest
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 days
+    when: always
+  cache:
+    paths:
+      - node_modules/
+
+build-assets:
+  stage: building
+  # Download the artifacts for these jobs
+  dependencies:
+    - composer
+    - npm
+  script:
+    - npm -v
+    - npm run production --progress false
+  artifacts:
+    paths:
+      - public/css/
+      - public/js/
+      - public/fonts/
+      - public/mix-manifest.json
+    expire_in: 1 days
+    when: always
+
+deploy:
+  stage: deploy
+  image: ubuntu:18.04
+  only:
+    - master
+  script:
+    - apt-get update -qq && apt-get install -y -qq lftp
+    - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; rm -r public/js"
+    - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -Rev ./ ./ --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/ --exclude node_modules/ --exclude storage/app/ --exclude storage/logs/ --exclude bootstrap/ --exclude vendor/composer/autoload_real.php --dereference --no-symlinks"
