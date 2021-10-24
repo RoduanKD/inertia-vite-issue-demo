@@ -5,6 +5,7 @@ import vuetify from '@/plugins/vuetify'
 import AdminLayout from '@/layouts/AdminLayout'
 import store from './store'
 import i18n from '@/i18n/i18n'
+import '@/plugins/helpers'
 
 Vue.mixin({ methods: { route } })
 

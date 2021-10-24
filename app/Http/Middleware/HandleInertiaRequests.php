@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
             'app.name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'can' => $request->user()?->getAllPermissions()->pluck('name') ,
             ],
             'flash' => function () use ($request) {
                 return [
