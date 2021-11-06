@@ -17,5 +17,8 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Admin/Welcome');
 })->middleware('auth')->name('admin.dashboard');
-
+Route::get('language/{lang}', function ($lang) {
+    session(['locale' => $lang]);
+    return redirect()->back();
+})->name('lang.switch')->where('lang', 'ar|en');
 require __DIR__ . '/auth.php';

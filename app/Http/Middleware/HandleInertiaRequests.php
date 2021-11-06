@@ -48,6 +48,9 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
+            'locale' => function () {
+                return app()->getLocale();
+            },
         ]);
     }
 }

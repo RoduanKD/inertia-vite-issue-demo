@@ -7,6 +7,7 @@
     clipped
     floating
     dark
+    :right="$page.props.locale === 'ar'"
   >
     <template #img="props">
       <v-img

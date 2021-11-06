@@ -5,7 +5,11 @@ export default {
   buttons: {
     cancel: 'Cancel',
     ok: 'OK',
-    save: 'Save'
+    save: 'Save',
+    add: 'Add',
+    update: 'Update',
+    close: 'Close',
+    select: 'Select'
   },
   titles: {
     new: 'New {0}',

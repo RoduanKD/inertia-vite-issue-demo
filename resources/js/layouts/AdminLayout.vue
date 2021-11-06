@@ -2,7 +2,8 @@
   <v-app>
     <v-app-bar
       app
-      clipped-left
+      :clipped-left="$page.props.locale !== 'ar'"
+      :clipped-right="$page.props.locale === 'ar'"
       color="primary"
       dark
     >
@@ -14,6 +15,13 @@
           <brand-logo background="primary" />
         </v-img>
       </v-app-bar-title>
+      <v-spacer />
+      <v-btn
+        icon
+        @click="switchLang"
+      >
+        <v-icon>{{ selectableLocale }}</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <side-bar :key="route().current()" />
@@ -46,6 +54,26 @@ export default {
     FlashMessages,
     BrandLogo,
     SideBar
+  },
+  computed: {
+    selectableLocale () {
+      return this.$page.props.locale === 'en' ? 'mdi-abjad-arabic' : 'mdi-alpha-e'
+    },
+    selectableLang () {
+      return this.$page.props.locale === 'en' ? 'ar' : 'en'
+    }
+  },
+
+  created () {
+    this.$i18n.locale = this.$page.props.locale
+    this.$vuetify.rtl = this.$page.props.locale === 'ar'
+  },
+  methods: {
+    switchLang () {
+      this.$inertia.visit(route('lang.switch', { lang: this.selectableLang }), { preserveScroll: true })
+      this.$i18n.locale = this.selectableLang
+      if (this.$i18n.locale === 'ar') { this.$vuetify.rtl = true } else { this.$vuetify.rtl = false }
+    }
   }
 }
 </script>

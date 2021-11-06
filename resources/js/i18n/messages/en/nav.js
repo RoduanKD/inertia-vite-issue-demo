@@ -5,5 +5,6 @@ export default {
     management: 'Management'
   },
   list: '{0} List',
-  inbox: 'Inbox'
+  inbox: 'Inbox',
+  settings: 'Settings'
 }
