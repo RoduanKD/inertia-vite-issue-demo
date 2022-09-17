@@ -53,9 +53,9 @@
       </div>
 
       <div class="flex items-center justify-end mt-4">
-        <v-button :loading="form.processing">
+        <v-btn :loading="form.processing">
           Reset Password
-        </v-button>
+        </v-btn>
       </div>
     </form>
   </authentication-card>

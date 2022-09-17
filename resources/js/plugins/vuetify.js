@@ -1,8 +1,12 @@
 import Vue from 'vue'
-import 'vuetify/dist/vuetify.min.css'
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib/framework'
+import { VBtn } from 'vuetify/lib'
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  components: {
+    VBtn,
+  },
+})
 
 export default new Vuetify({
   theme: {
@@ -14,5 +18,9 @@ export default new Vuetify({
         error: '#b71c1c',
       },
     },
+    options: { customProperties: true },
+  },
+  breakpoint: {
+    mobileBreakpoint: 'xs',
   },
 })
