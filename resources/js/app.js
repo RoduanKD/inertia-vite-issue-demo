@@ -1,36 +1,42 @@
-import { App, plugin } from '@inertiajs/inertia-vue'
 import Vue from 'vue'
+import { createInertiaApp, Link } from '@inertiajs/inertia-vue'
 import { InertiaProgress } from '@inertiajs/progress'
 import vuetify from '@/plugins/vuetify'
-import AdminLayout from '@/layouts/AdminLayout'
+import AdminLayout from '@/layouts/AdminLayout.vue'
 import store from './store'
 import i18n from '@/i18n/i18n'
 import '@/plugins/helpers'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
+
+import './bootstrap'
 
 Vue.mixin({ methods: { route } })
 
-require('./bootstrap')
-
 InertiaProgress.init({
-  showSpinner: true,
+  showSpinner: false,
   color: '#f88e2d',
 })
-Vue.use(plugin)
 
-const el = document.getElementById('app')
+Vue.component('InertiaLink', Link)
 
-new Vue({
-  render: h => h(App, {
-    props: {
-      initialPage: JSON.parse(el.dataset.page),
-      resolveComponent: name => import(`./pages/${name}`)
-        .then(({ default: page }) => {
-          page.layout = page.layout === undefined ? AdminLayout : page.layout
-          return page
-        }),
-    },
+createInertiaApp({
+  resolve: name => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')).then(({ default: page }) => {
+    page.layout = page.layout === undefined ? AdminLayout : page.layout
+    return page
   }),
-  vuetify,
-  store,
-  i18n,
-}).$mount(el)
+  setup ({
+    el,
+    App,
+    props,
+    plugin,
+  }) {
+    Vue.use(plugin)
+
+    new Vue({
+      vuetify,
+      store,
+      i18n,
+      render: h => h(App, props),
+    }).$mount(el)
+  },
+})
