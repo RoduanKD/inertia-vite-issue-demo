@@ -58,23 +58,23 @@ export default {
   props: {
     survey: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   data () {
     return {
-      answers: {}
+      answers: {},
     }
   },
   computed: {
     questions () {
       return this.survey.questions
-    }
+    },
   },
   methods: {
     submit () {
       this.$inertia.post(route('surveys.entries.store', this.survey.id), this.answers)
-    }
-  }
+    },
+  },
 }
 </script>

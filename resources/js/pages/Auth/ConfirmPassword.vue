@@ -49,14 +49,14 @@ import AuthenticationCardLogo from '@/components/Auth/AuthenticationCardLogo'
 export default {
   components: {
     AuthenticationCard,
-    AuthenticationCardLogo
+    AuthenticationCardLogo,
   },
 
   data () {
     return {
       form: this.$inertia.form({
-        password: ''
-      })
+        password: '',
+      }),
     }
   },
 
@@ -67,15 +67,15 @@ export default {
 
     hasErrors () {
       return Object.keys(this.errors).length > 0
-    }
+    },
   },
 
   methods: {
     submit () {
       this.form.post(this.route('password.confirm'), {
-        onFinish: () => this.form.reset()
+        onFinish: () => this.form.reset(),
       })
-    }
-  }
+    },
+  },
 }
 </script>

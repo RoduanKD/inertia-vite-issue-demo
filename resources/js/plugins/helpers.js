@@ -14,6 +14,6 @@ const Helpers = {
       }
       return can
     }
-  }
+  },
 }
 Vue.use(Helpers)

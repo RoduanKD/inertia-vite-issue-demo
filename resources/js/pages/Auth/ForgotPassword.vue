@@ -43,28 +43,28 @@ import AuthenticationCardLogo from '@/components/Auth/AuthenticationCardLogo'
 export default {
   components: {
     AuthenticationCard,
-    AuthenticationCardLogo
+    AuthenticationCardLogo,
   },
 
   props: {
     status: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
 
   data () {
     return {
       form: this.$inertia.form({
-        email: ''
-      })
+        email: '',
+      }),
     }
   },
 
   methods: {
     submit () {
       this.form.post(this.route('password.email'))
-    }
-  }
+    },
+  },
 }
 </script>

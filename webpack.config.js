@@ -5,13 +5,13 @@ const ESLintPlugin = require('eslint-webpack-plugin')
 module.exports = {
   resolve: {
     alias: {
-      '@': path.resolve('resources/js')
-    }
+      '@': path.resolve('resources/js'),
+    },
   },
   plugins: [
     new VuetifyLoaderPlugin({
-      progressiveImages: true
+      progressiveImages: true,
     }),
-    new ESLintPlugin()
-  ]
+    new ESLintPlugin({ fix: true }),
+  ],
 }

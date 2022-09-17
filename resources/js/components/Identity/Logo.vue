@@ -72,15 +72,15 @@ export default {
   props: {
     background: {
       type: String,
-      default: 'white'
-    }
+      default: 'white',
+    },
   },
   data () {
     return {
       colors: {
         primary: this.$vuetify.theme.themes.light.primary,
-        secondary: this.$vuetify.theme.themes.light.secondary
-      }
+        secondary: this.$vuetify.theme.themes.light.secondary,
+      },
     }
   },
   computed: {
@@ -89,7 +89,7 @@ export default {
     },
     secondary () {
       return this.background === 'secondary' ? 'fill: #ffffff;' : `fill: ${this.colors.secondary};`
-    }
-  }
+    },
+  },
 }
 </script>

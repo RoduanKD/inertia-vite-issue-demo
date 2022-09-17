@@ -13,7 +13,7 @@ require('./bootstrap')
 
 InertiaProgress.init({
   showSpinner: true,
-  color: '#f88e2d'
+  color: '#f88e2d',
 })
 Vue.use(plugin)
 
@@ -27,10 +27,10 @@ new Vue({
         .then(({ default: page }) => {
           page.layout = page.layout === undefined ? AdminLayout : page.layout
           return page
-        })
-    }
+        }),
+    },
   }),
   vuetify,
   store,
-  i18n
+  i18n,
 }).$mount(el)
