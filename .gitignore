@@ -16,3 +16,4 @@ yarn-error.log
 /public/js
 /public/images
 /.idea
+/public/build
